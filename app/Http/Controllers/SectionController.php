@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Section;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SectionController extends Controller
 {
@@ -14,7 +15,7 @@ class SectionController extends Controller
      */
     public function index()
     {
-        //
+        return view('sections.sections');
     }
 
     /**
@@ -35,7 +36,24 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'section_name' => 'required|unique:sections|max:255',
+        ], [
+
+            'section_name.required' => 'يرجي ادخال اسم القسم',
+            'section_name.unique' => 'اسم القسم مسجل مسبقا',
+
+
+        ]);
+
+        Section::create([
+            'section_name' => $request->section_name,
+            'description' => $request->description,
+            'Created_by' => (Auth::user()->name),
+
+        ]);
+        session()->flash('Add', 'تم اضافة القسم بنجاح ');
+        return redirect('/sections');
     }
 
     /**

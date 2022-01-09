@@ -118,7 +118,7 @@
                         </g>
                     </svg><span class="side-menu__label">الإعدادات</span><i class="angle fe fe-chevron-down"></i></a>
                 <ul class="slide-menu">
-                    <li><a class="slide-item" href="{{ url('/' . ($page = 'profile')) }}">الأقسام</a></li>
+                    <li><a class="slide-item" href="{{ url('/' . ($page = 'sections')) }}">الأقسام</a></li>
                     <li><a class="slide-item" href="{{ url('/' . ($page = 'editprofile')) }}">إضافة المنتج</a>
                     </li>
                 </ul>
