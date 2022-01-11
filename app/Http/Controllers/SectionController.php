@@ -88,9 +88,28 @@ class SectionController extends Controller
      * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Section $section)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate(
+            [
+                'section_name' => 'required|max:255|unique:sections,section_name,ex' . $id,
+                'description'  => 'required|string|min:10|max:255'
+            ],
+            [
+                'section_name.required' => 'يرجي ادخال اسم القسم',
+                'section_name.unique'   => 'اسم القسم مسجل مسبقا',
+                'description.required' => 'يرجى ادخال الوصف الخاص بالقسم'
+            ]
+        );
+
+        $section = Section::find($id);
+        $section->update([
+            'section_name'    => $request->section_name,
+            'description'     => $request->description,
+        ]);
+
+        session()->flash('edit', 'تم تعديل القسم بنجاج');
+        return redirect('/sections');
     }
 
     /**
@@ -99,8 +118,10 @@ class SectionController extends Controller
      * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Section $section)
+    public function destroy($id)
     {
-        //
+        Section::find($id)->delete();
+        session()->flash('delete', 'تم حذف القسم بنجاح');
+        return redirect('/sections');
     }
 }
