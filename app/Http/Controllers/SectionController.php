@@ -37,15 +37,17 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'section_name' => 'required|unique:sections|max:255',
-        ], [
-
-            'section_name.required' => 'يرجي ادخال اسم القسم',
-            'section_name.unique' => 'اسم القسم مسجل مسبقا',
-
-
-        ]);
+        $request->validate(
+            [
+                'section_name' => 'required|unique:sections|max:255',
+                'description'  => 'required|string|min:10|max:255'
+            ],
+            [
+                'section_name.required' => 'يرجي ادخال اسم القسم',
+                'section_name.unique'   => 'اسم القسم مسجل مسبقا',
+                'description.required' => 'يرجى ادخال الوصف الخاص بالقسم'
+            ]
+        );
 
         Section::create([
             'section_name' => $request->section_name,

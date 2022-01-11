@@ -28,6 +28,17 @@
 @endsection
 
 @section('content')
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     @if (session()->has('Add'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>{{ session()->get('Add') }}</strong>
@@ -59,12 +70,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                </tr>
+                                {{-- السطر التالي عرفنا متغير و اعطيناه قيمة ابتدائية صفر --}}
+                                {{-- <?php $i = 0; ?> --}}
+                                @foreach ($sections as $section)
+                                    {{-- كل ما يدخل الحلقة بيزيد قيمة المتغي بمقادر واحد --}}
+                                    {{-- <?php $i = 0; ?> --}}
+                                    <tr>
+                                        {{-- استغنيت عن المتغير الذي قمت بتعريفه بأن وضعت السطر التالي --}}
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $section->section_name }}</td>
+                                        <td>{{ $section->description }}</td>
+                                        <td>{{ $section->Created_by }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -87,12 +105,13 @@
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">اسم القسم</label>
-                                <input type="text" class="form-control" id="section_name" name="section_name">
+                                <input type="text" class="form-control" id="section_name" name="section_name" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">ملاحظات</label>
-                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                                <label for="exampleFormControlTextarea1">الوصف</label>
+                                <textarea class="form-control" id="description" name="description" rows="3"
+                                    required></textarea>
                             </div>
 
                             <div class="modal-footer">
