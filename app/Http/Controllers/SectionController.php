@@ -90,9 +90,10 @@ class SectionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $id = $request->id;
         $request->validate(
             [
-                'section_name' => 'required|max:255|unique:sections,section_name,ex' . $id,
+                'section_name' => 'required|max:255|unique:sections,section_name,' . $id,
                 'description'  => 'required|string|min:10|max:255'
             ],
             [
@@ -118,8 +119,9 @@ class SectionController extends Controller
      * @param  \App\Models\Section  $section
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        $id = $request->id;
         Section::find($id)->delete();
         session()->flash('delete', 'تم حذف القسم بنجاح');
         return redirect('/sections');

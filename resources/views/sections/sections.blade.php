@@ -89,13 +89,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- السطر التالي عرفنا متغير و اعطيناه قيمة ابتدائية صفر --}}
-                                {{-- <?php $i = 0; ?> --}}
                                 @foreach ($sections as $section)
-                                    {{-- كل ما يدخل الحلقة بيزيد قيمة المتغي بمقادر واحد --}}
-                                    {{-- <?php $i = 0; ?> --}}
                                     <tr>
-                                        {{-- استغنيت عن المتغير الذي قمت بتعريفه بأن وضعت السطر التالي --}}
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $section->section_name }}</td>
                                         <td>{{ $section->description }}</td>
@@ -171,7 +166,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('sections.update', $section->id) }}" method="post" autocomplete="off">
+                        <form method="POST" action="sections/update" autocomplete="off">
                             {{ method_field('patch') }}
                             {{ csrf_field() }}
                             <div class="form-group">
@@ -183,12 +178,12 @@
                                 <label for="message-text" class="col-form-label">الوصف</label>
                                 <textarea class="form-control" id="description" name="description"></textarea>
                             </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">تأكيد</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">تأكيد</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -202,7 +197,7 @@
                         <h6 class="modal-title">حذف القسم</h6><button aria-label="Close" class="close"
                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <form action="{{ route('sections.destroy', $section->id) }}" method="post">
+                    <form method="POST" action="sections/destroy">
                         {{ method_field('delete') }}
                         {{ csrf_field() }}
                         <div class="modal-body">
@@ -214,8 +209,8 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
                             <button type="submit" class="btn btn-danger">تاكيد</button>
                         </div>
+                    </form>
                 </div>
-                </form>
             </div>
         </div>
         <!-- End modal -->

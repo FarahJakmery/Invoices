@@ -9,6 +9,12 @@
     <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/plugins/prism/prism.css') }}" rel="stylesheet">
+    <!---Internal Owl Carousel css-->
+    <link href="{{ URL::asset('assets/plugins/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
+    <!---Internal  Multislider css-->
+    <link href="{{ URL::asset('assets/plugins/multislider/multislider.css') }}" rel="stylesheet">
+    <!--- Select2 css -->
+    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('title')
@@ -100,19 +106,17 @@
                                         <td>{{ $product->section->section_name }}</td>
                                         <td>{{ $product->description }}</td>
                                         <td>
-                                            <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                                data-id="{{ $product->id }}"
+                                            <button class="btn btn-outline-success btn-sm"
                                                 data-product_name="{{ $product->product_name }}"
+                                                data-id="{{ $product->id }}"
+                                                data-section_name="{{ $product->section->section_name }}"
                                                 data-description="{{ $product->description }}" data-toggle="modal"
-                                                href="#exampleModal2" title="تعديل">
-                                                <i class="las la-pen"></i>
+                                                data-target="#edit_Product">تعديل</button>
                                             </a>
 
-                                            <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                                data-id="{{ $product->id }}"
+                                            <button class="btn btn-outline-danger btn-sm " data-id="{{ $product->id }}"
                                                 data-product_name="{{ $product->product_name }}" data-toggle="modal"
-                                                href="#modaldemo9" title="حذف">
-                                                <i class="las la-trash"></i>
+                                                data-target="#modaldemo9">حذف</button>
                                             </a>
                                         </td>
                                     </tr>
@@ -129,13 +133,15 @@
         <div class="modal" id="modaldemo8">
             <div class="modal-dialog" role="document">
                 <div class="modal-content modal-content-demo">
+
                     <div class="modal-header">
                         <h6 class="modal-title">إضافة منتج</h6><button aria-label="Close" class="close"
                             data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <div class="modal-body">
-                        <form action="{{ route('products.store') }}" method="post">
-                            {{ csrf_field() }}
+
+                    <form action="{{ route('products.store') }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
 
                             <div class="form-group">
                                 <label for="exampleInputEmail1">اسم المنتج</label>
@@ -156,74 +162,90 @@
                                     required></textarea>
                             </div>
 
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-success">تاكيد</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">تاكيد</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                        </div>
+                    </form>
                 </div>
+
             </div>
         </div>
         <!-- End modal -->
 
         <!-- Edit Section -->
-        <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <div class="modal fade" id="edit_Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">تعديل المنتج</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">تعديل منتج</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        {{-- <form action="{{ route('products.update', $product->id) }}" method="post" autocomplete="off"> --}}
+                    <form action='products/update' method="POST" autocomplete="off">
                         {{ method_field('patch') }}
                         {{ csrf_field() }}
-                        <div class="form-group">
-                            <input type="hidden" name="id" id="id" value="">
-                            <label for="recipient-name" class="col-form-label">اسم المنتج</label>
-                            <input class="form-control" name="product_name" id="product_name" type="text">
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label for="title">اسم المنتج</label>
+                                <input type="hidden" class="form-control" name="id" id="id" value="">
+                                <input type="text" class="form-control" name="product_name" id="product_name">
+                            </div>
+
+                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">القسم</label>
+                            <select name="section_name" id="section_name" class="custom-select my-1 mr-sm-2" required>
+                                @foreach ($sections as $section)
+                                    <option>
+                                        {{ $section->section_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <div class="form-group">
+                                <label for="des">ملاحظات :</label>
+                                <textarea name="description" cols="20" rows="5" id='description'
+                                    class="form-control"></textarea>
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">الوصف</label>
-                            <textarea class="form-control" id="description" name="description"></textarea>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">تعديل البيانات</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">تأكيد</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
-                    </div>
                     </form>
                 </div>
             </div>
         </div>
         <!-- End modal -->
 
-        <!-- Delete Section -->
+        <!-- Delete Product -->
         <div class="modal" id="modaldemo9">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content modal-content-demo">
                     <div class="modal-header">
-                        <h6 class="modal-title">حذف المنتج</h6><button aria-label="Close" class="close"
-                            data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                        <h6 class="modal-title">حذف المنتج</h6>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    {{-- <form action="{{ route('products.destroy', $section->id) }}" method="post"> --}}
-                    {{ method_field('delete') }}
-                    {{ csrf_field() }}
-                    <div class="modal-body">
-                        <p>هل انت متاكد من عملية الحذف ؟</p><br>
-                        <input type="hidden" name="id" id="id" value="">
-                        <input class="form-control" name="product_name" id="product_name" type="text" readonly>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                        <button type="submit" class="btn btn-danger">تاكيد</button>
-                    </div>
+                    <form action="products/destroy" method="POST">
+                        {{ method_field('delete') }}
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <p>هل انت متاكد من عملية الحذف ؟</p><br>
+                            <input type="hidden" name="id" id="id" value="">
+                            <input class="form-control" name="product_name" id="product_name" type="text" readonly>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                            <button type="submit" class="btn btn-danger">تاكيد</button>
+                        </div>
+                    </form>
                 </div>
-                </form>
             </div>
         </div>
         <!-- End modal -->
@@ -271,15 +293,18 @@
 
     {{-- This script return the value of each input for editing it --}}
     <script>
-        $('#exampleModal2').on('show.bs.modal', function(event) {
+        $('#edit_Product').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget)
-            var id = button.data('id')
             var product_name = button.data('product_name')
+            var section_name = button.data('section_name')
+            var id = button.data('id')
             var description = button.data('description')
             var modal = $(this)
             modal.find('.modal-body #id').val(id);
             modal.find('.modal-body #product_name').val(product_name);
+            modal.find('.modal-body #section_name').val(section_name);
             modal.find('.modal-body #description').val(description);
+
         })
     </script>
 
