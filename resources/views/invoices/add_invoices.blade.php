@@ -211,14 +211,25 @@
     {{-- This script to get the products that belongs to specific Section --}}
     <script>
         $(document).ready(function() {
+            // السطر التالي يعني: عندما يتم اختيار اسم القسم و يصبح عليه تغيير يبدأ بتنفيذ التابع
             $('select[name="Section"]').on('change', function() {
+                // هذا السطر سوف يأخذ "قييييييمة" هذا القسم الذي تم اختياره و يسندها للمتغير
                 var SectionId = $(this).val();
                 if (SectionId) {
+
                     $.ajax({
+                        // هنا سوف يذهب إلى المسار التالي و يأخذ معه قيييييمة القسم الذي تم اختاره
                         url: "{{ URL::to('section') }}/" + SectionId,
+                        // نوع هذا المسار"get"
                         type: "GET",
+                        // نوع الداتا الذي سيتم ارسالها
                         dataType: "json",
+
                         success: function(data) {
+                            /*
+                             في البداية قبل أن يختار المستخدم القسم لن تكون هناك أية منتجات
+                            لذلك بناء على القسم المختار سيتم ملئ المنتجات المناسبة للقسم
+                            */
                             $('select[name="product"]').empty();
                             $.each(data, function(key, value) {
                                 $('select[name="product"]').append('<option value="' +
