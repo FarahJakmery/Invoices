@@ -201,12 +201,14 @@
     <!-- Internal form-elements js -->
     <script src="{{ URL::asset('assets/js/form-elements.js') }}"></script>
 
+    {{-- This script to get the current date --}}
     <script>
         var date = $('.fc-datepicker').datepicker({
             dateFormat: 'yy-mm-dd'
         }).val();
     </script>
 
+    {{-- This script to get the products that belongs to specific Section --}}
     <script>
         $(document).ready(function() {
             $('select[name="Section"]').on('change', function() {
@@ -231,6 +233,7 @@
         });
     </script>
 
+    {{-- This script calculates "قيمة ضريبة القيمة المضافة" and "الاجمالي شامل الضريبة" --}}
     <script>
         function myFunction() {
             var Amount_Commission = parseFloat(document.getElementById("Amount_Commission").value);
