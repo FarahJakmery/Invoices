@@ -38,7 +38,22 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Invoice::create([
+            'incoice_number'    => $request->invoice_number,
+            'incoice_date'      => $request->incoice_date,
+            'due_date'          => $request->due_date,
+            'product'           => $request->product,
+            'section_id'        => $request->Section,
+            'Amount_collection' => $request->Amount_collection,
+            'Amount_Commission' => $request->Amount_Commission,
+            'discount'          => $request->discount,
+            'value_vat'         => $request->value_vat,
+            'rate_vat'          => $request->rate_vat,
+            'total'             => $request->total,
+            'status'            => 'غير مدفوعة', // The defult value of the status when the Admin create the invoice will be "غير مدفوعة"
+            'value_status'      => 2,
+            'note'              => $request->note,
+        ]);
     }
 
     /**
