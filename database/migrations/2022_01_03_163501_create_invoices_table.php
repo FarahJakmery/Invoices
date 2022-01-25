@@ -14,7 +14,7 @@ class CreateInvoicesTable extends Migration
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('incoice_number'); //رقم الفاتورة
             $table->date('incoice_date'); // تاريخ الفاتورة
             $table->date('due_date'); // تاريخ الاستحقاق

@@ -98,7 +98,6 @@
                             </div>
                         </div>
 
-
                         {{-- 3 --}}
                         <div class="row">
                             <div class="col">
@@ -115,6 +114,7 @@
                                     title="يرجي ادخال مبلغ الخصم "
                                     oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                     value=0 required>
+                                {{-- we put the value of the "الخصم" zero because if we don't put any value it will make some problem in the database --}}
                             </div>
 
                             <div class="col">
@@ -251,6 +251,7 @@
             var Discount = parseFloat(document.getElementById("Discount").value);
             var Rate_VAT = parseFloat(document.getElementById("Rate_VAT").value);
             var Value_VAT = parseFloat(document.getElementById("Value_VAT").value);
+
             var Amount_Commission2 = Amount_Commission - Discount;
             if (typeof Amount_Commission === 'undefined' || !Amount_Commission) {
                 alert('يرجي ادخال مبلغ العمولة ');
