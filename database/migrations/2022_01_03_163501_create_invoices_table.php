@@ -16,12 +16,12 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('incoice_number', 50); //رقم الفاتورة
-            $table->date('incoice_date'); // تاريخ الفاتورة
-            $table->date('due_date'); // تاريخ الاستحقاق
+            $table->date('incoice_date')->nullable(); // تاريخ الفاتورة
+            $table->date('due_date')->nullable(); // تاريخ الاستحقاق
             $table->string('product', 50); // المنتج
             $table->foreignId('section_id')->constrained()->onDelete('cascade');
-            $table->decimal('Amount_collection', 8, 2)->nullable();
-            $table->decimal('Amount_commission', 8, 2)->nullable(); // عمولة المبلغ
+            $table->decimal('Amount_collection')->nullable();
+            $table->decimal('Amount_commission')->nullable(); // عمولة المبلغ
             $table->string('discount', 8, 2); // خصم على الفاتورة
             $table->decimal('value_vat', 8, 2); // قيمة الضريبة
             $table->string('rate_vat', 999); // نسبة الضريبة
