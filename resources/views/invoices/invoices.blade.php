@@ -73,12 +73,11 @@
                                         <td>{{ $invoice->incoice_number }}</td>
                                         <td>{{ $invoice->incoice_date }}</td>
                                         <td>{{ $invoice->due_date }}</td>
-                                        <td>{{ $invoice->product }}</td>
                                         <td>
                                             <a href="{{ route('invoice_details.show', $invoice->id) }}">
-                                                {{ $invoice->section->section_name }}
-                                            </a>
+                                                {{ $invoice->product }} </a>
                                         </td>
+                                        <td>{{ $invoice->section->section_name }}</td>
                                         <td>{{ $invoice->discount }}</td>
                                         <td>{{ $invoice->rate_vat }}</td>
                                         <td>{{ $invoice->value_vat }}</td>
