@@ -36,9 +36,17 @@
         <div class="col-xl-12">
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
-                    <a href="invoices/create" class="modal-effect btn btn-sm btn-primary" style="color:white">
-                        <i class="fas fa-plus"></i>&nbsp; إضافة فاتورة</a>
+                    <div class="row row-xs wd-xl-80p">
+                        <div class="col-sm-6 col-md-3">
+                            <a href="invoices/create">
+                                <button class="modal-effect btn btn-primary btn-block" data-effect="effect-scale"
+                                    data-toggle="modal">
+                                    <i class="fas fa-plus"></i>&nbsp; إضافة فاتورة </button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="example2" class="table key-buttons text-md-nowrap">
@@ -48,33 +56,45 @@
                                     <th class="border-bottom-0">رقم الفاتورة</th>
                                     <th class="border-bottom-0">تاريخ الفاتورة</th>
                                     <th class="border-bottom-0">تاريخ الاستحقاق</th>
-                                    <th class="border-bottom-0">المنتج</th>
                                     <th class="border-bottom-0">القسم</th>
+                                    <th class="border-bottom-0">المنتج</th>
                                     <th class="border-bottom-0">الخصم</th>
                                     <th class="border-bottom-0">نسبة الضريبة</th>
                                     <th class="border-bottom-0">قيمة الضريبة</th>
                                     <th class="border-bottom-0">الإجمالي</th>
                                     <th class="border-bottom-0">الحالة</th>
-                                    {{-- <th class="border-bottom-0">قيمة الحالة</th> --}}
                                     <th class="border-bottom-0">الملاحظات</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>213568</td>
-                                    <td>2021-1-31</td>
-                                    <td>2021-11-31</td>
-                                    <td>cc</td>
-                                    <td>البنك الأهلي</td>
-                                    <td>10%</td>
-                                    <td>10%</td>
-                                    <td>2050</td>
-                                    <td>2650</td>
-                                    <td>غير مدفوعة</td>
-                                    {{-- <td>1</td> --}}
-                                    <td>لم يتم السداد</td>
-                                </tr>
+                                @foreach ($invoices as $invoice)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $invoice->incoice_number }}</td>
+                                        <td>{{ $invoice->incoice_date }}</td>
+                                        <td>{{ $invoice->due_date }}</td>
+                                        <td>{{ $invoice->product }}</td>
+                                        <td>
+                                            <a href="{{ route('invoice_details.show', $invoice->id) }}">
+                                                {{ $invoice->section->section_name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ $invoice->discount }}</td>
+                                        <td>{{ $invoice->rate_vat }}</td>
+                                        <td>{{ $invoice->value_vat }}</td>
+                                        <td>{{ $invoice->total }}</td>
+                                        <td>
+                                            @if ($invoice->value_status == 1)
+                                                <span class="text-success">{{ $invoice->status }}</span>
+                                            @elseif ($invoice->value_status == 2)
+                                                <span class="text-danger">{{ $invoice->status }}</span>
+                                            @else
+                                                <span class="text-warning">{{ $invoice->status }}</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $invoice->note }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

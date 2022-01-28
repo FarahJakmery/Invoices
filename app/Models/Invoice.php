@@ -25,4 +25,9 @@ class Invoice extends Model
         'Payment_Date',
     ];
     use HasFactory;
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
 }
