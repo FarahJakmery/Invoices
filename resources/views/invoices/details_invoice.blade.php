@@ -35,7 +35,6 @@
                     <div class="main-content-label mg-b-5">
                         تفاصيل الفاتورة
                     </div>
-                    <p class="mg-b-20">It is Very Easy to Customize and it uses in your website apllication.</p>
                     <div class="text-wrap">
                         <div class="example">
                             <div class="panel panel-primary tabs-style-3">
@@ -79,7 +78,7 @@
                                                                 style="text-align:center">
                                                                 <tr>
                                                                     <th scope="row">رقم الفاتورة</th>
-                                                                    <td>{{ $invoice->incoice_number }}</td>
+                                                                    <td>{{ $invoice->invoice_number }}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <th scope="row">تاريخ الفاتورة</th>
@@ -208,9 +207,9 @@
                                         </div>
                                         {{-- Third tab --}}
                                         <div class="tab-pane" id="tab13">
-                                            <!--المرفقات-->
                                             <div class="card card-statistics">
-                                                {{-- @can('اضافة مرفق')
+                                                {{-- إضافة مرفق --}}
+                                                @can('اضافة مرفق')
                                                     <div class="card-body">
                                                         <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
                                                         <h5 class="card-title">اضافة مرفقات</h5>
@@ -230,15 +229,16 @@
                                                             <br><br>
                                                             <button type="submit" class="btn btn-primary btn-sm "
                                                                 name="uploadedFile">
-                                                                تاكيد
+                                                                تأكيد
                                                             </button>
                                                         </form>
                                                     </div>
-                                                @endcan --}}
+                                                @endcan
                                                 <br>
                                                 <div class="table-responsive mt-15">
                                                     <table class="table center-aligned-table mb-0 table table-hover"
                                                         style="text-align:center">
+                                                        {{-- Table Head --}}
                                                         <thead>
                                                             <tr class="text-dark">
                                                                 <th scope="col">#</th>
@@ -248,6 +248,7 @@
                                                                 <th scope="col">العمليات</th>
                                                             </tr>
                                                         </thead>
+                                                        {{-- Table Body --}}
                                                         <tbody>
                                                             @foreach ($attachments as $attachment)
                                                                 <tr>
@@ -255,18 +256,36 @@
                                                                     <td>{{ $attachment->file_name }}</td>
                                                                     <td>{{ $attachment->Created_by }}</td>
                                                                     <td>{{ $attachment->created_at }}</td>
-
+                                                                    <td colspan="2">
+                                                                        {{-- Show Button --}}
+                                                                        <a class="btn btn-outline-success btn-sm"
+                                                                            href="{{ route('view_file', ['invoice_number' => $invoice->invoice_number, 'file_name' => $attachment->file_name]) }}"
+                                                                            role="button">
+                                                                            <i class="fas fa-eye"></i>&nbsp;عرض
+                                                                        </a>
+                                                                        {{-- Download Button --}}
+                                                                        <a class="btn btn-outline-info btn-sm"
+                                                                            href="{{ route('download', ['invoice_number' => $invoice->invoice_number, 'file_name' => $attachment->file_name]) }}"
+                                                                            role="button">
+                                                                            <i class="fas fa-download"></i>&nbsp;تحميل
+                                                                        </a>
+                                                                        {{-- Delete Button --}}
+                                                                        @can('حذف المرفق')
+                                                                            <button class="btn btn-outline-danger btn-sm"
+                                                                                data-toggle="modal"
+                                                                                data-file_name="{{ $attachment->file_name }}"
+                                                                                data-invoice_number="{{ $attachment->invoice_number }}"
+                                                                                data-id_file="{{ $attachment->id }}"
+                                                                                data-target="#delete_file">حذف</button>
+                                                                        @endcan
+                                                                    </td>
                                                                 </tr>
                                                             @endforeach
                                                         </tbody>
-                                                        </tbody>
                                                     </table>
-
                                                 </div>
                                             </div>
-
                                         </div>
-
                                     </div>
                                 </div>
                             </div>

@@ -70,7 +70,7 @@
                                 @foreach ($invoices as $invoice)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $invoice->incoice_number }}</td>
+                                        <td>{{ $invoice->invoice_number }}</td>
                                         <td>{{ $invoice->incoice_date }}</td>
                                         <td>{{ $invoice->due_date }}</td>
                                         <td>

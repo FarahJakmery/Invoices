@@ -15,7 +15,7 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('incoice_number', 50); //رقم الفاتورة
+            $table->string('invoice_number', 50); //رقم الفاتورة
             $table->date('incoice_date')->nullable(); // تاريخ الفاتورة
             $table->date('due_date')->nullable(); // تاريخ الاستحقاق
             $table->string('product', 50); // المنتج

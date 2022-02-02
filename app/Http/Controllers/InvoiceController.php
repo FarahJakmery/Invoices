@@ -43,7 +43,7 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         Invoice::create([
-            'incoice_number'    => $request->invoice_number,
+            'invoice_number'    => $request->invoice_number,
             'incoice_date'      => $request->incoice_date,
             'due_date'          => $request->due_date,
             'product'           => $request->product,

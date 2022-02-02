@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceAttachments;
 use App\Models\InvoiceDetails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceDetailsController extends Controller
 {
@@ -86,5 +87,11 @@ class InvoiceDetailsController extends Controller
     public function destroy(InvoiceDetails $invoiceDetails)
     {
         //
+    }
+
+    public function open_file($invoice_number, $file_name)
+    {
+        $files = Storage::disk('public_uploads')->getDriver()->getAdapter()->applyPathPrefix($invoice_number . '/' . $file_name);
+        return response()->file($files);
     }
 }
